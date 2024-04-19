@@ -1,0 +1,88 @@
+import 'package:flutter/material.dart';
+
+class CardModel {
+  final String content;
+  bool isSelected;
+  final bool isEven; // Nueva propiedad para identificar cartas pares
+
+  CardModel(
+      {required this.content, this.isSelected = false, required this.isEven});
+}
+
+class CardWidget extends StatelessWidget {
+  final CardModel card;
+  final double cardSize;
+  final VoidCallback onTap;
+
+  CardWidget(
+      {required this.card, required this.cardSize, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: card.isSelected
+            ? card.isEven
+            ? Colors.greenAccent
+            : Colors.redAccent // Colores diferentes para pares e impares
+            : Colors.white,
+        child: SizedBox(
+          width: cardSize,
+          height: cardSize,
+          child: Center(
+            child: Text(
+              card.content,
+              style: TextStyle(fontSize: 20.0),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardListWidget extends StatefulWidget {
+  final double cardSize;
+
+  CardListWidget({required this.cardSize});
+
+  @override
+  _CardListWidgetState createState() => _CardListWidgetState();
+}
+
+class _CardListWidgetState extends State<CardListWidget> {
+  List<CardModel> cards = [
+    CardModel(content: 'Plantar manglares', isEven: true),
+    CardModel(content: 'Tirar basura a los ríos', isEven: false),
+    CardModel(content: 'Reducir huella ecológica', isEven: true),
+    CardModel(content: 'Alterar el flujo natural de agua', isEven: false),
+    CardModel(content: 'Áreas protegidas', isEven: true),
+    CardModel(content: 'Aumento del nivel del mar', isEven: false),
+    CardModel(content: 'Educar a las personas', isEven: true),
+    CardModel(content: 'Tala de árboles', isEven: false),
+    CardModel(content: 'Prácticas sostenibles de pesca', isEven: true),
+    CardModel(content: 'Programas de reforestación', isEven: false),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 16.0, // Espacio horizontal entre las cartas
+      runSpacing: 16.0, // Espacio vertical entre las filas de cartas
+      children: cards.map((card) {
+        return CardWidget(
+          card: card,
+          cardSize: widget.cardSize,
+          onTap: () {
+            setState(() {
+              card.isSelected = !card.isSelected;
+            });
+          },
+        );
+      }).toList(),
+    );
+  }
+}
