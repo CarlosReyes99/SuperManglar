@@ -115,7 +115,8 @@ class DeforestationScreen extends StatelessWidget {
                   const SizedBox(height: 16.0),
 
 
-                  CardListWidget(cardSize: 150)
+                  CardListWidget(cardSize: 150),
+
                 ],
               );
             },

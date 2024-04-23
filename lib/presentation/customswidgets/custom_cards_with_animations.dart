@@ -114,41 +114,49 @@ void _showPopup(BuildContext context, String imagePopup, String title, String de
     context: context,
     builder: (BuildContext context) {
       return Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                imagePopup, // Ruta de tu imagen
-                height: 300, // Ajusta el tamaño de la imagen según tus necesidades
+        insetPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        child: Stack(
+          children: [
+            Image.asset(
+              imagePopup,
+              fit: BoxFit.cover,
+              height: double.infinity,
+              width: double.infinity,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'MadimiOne',
+                      color: Colors.white, // Cambiar el color del texto para que se vea sobre la imagen
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    description,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'MadimiOne',
+                      color: Colors.white, // Cambiar el color del texto para que se vea sobre la imagen
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Cierra el popup
+                    },
+                    child: Text('Cerrar'),
+                  ),
+                ],
               ),
-              SizedBox(height: 16.0),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                    fontFamily: 'MadimiOne'
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                description,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'MadimiOne'
-                ),
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el popup
-                },
-                child: Text('Cerrar'),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     },

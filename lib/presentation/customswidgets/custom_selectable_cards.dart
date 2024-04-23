@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart'; // Importar el paquete Lottie
 
 class CardModel {
   final String content;
@@ -66,23 +67,44 @@ class _CardListWidgetState extends State<CardListWidget> {
     CardModel(content: 'Programas de reforestación', isEven: false),
   ];
 
+  int greenCardCount = 0;
+
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: 16.0, // Espacio horizontal entre las cartas
-      runSpacing: 16.0, // Espacio vertical entre las filas de cartas
-      children: cards.map((card) {
-        return CardWidget(
-          card: card,
-          cardSize: widget.cardSize,
-          onTap: () {
-            setState(() {
-              card.isSelected = !card.isSelected;
-            });
-          },
-        );
-      }).toList(),
+    return Stack(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 16.0, // Espacio horizontal entre las cartas
+          runSpacing: 16.0, // Espacio vertical entre las filas de cartas
+          children: cards.map((card) {
+            return CardWidget(
+              card: card,
+              cardSize: widget.cardSize,
+              onTap: () {
+                setState(() {
+                  card.isSelected = !card.isSelected;
+                  if (card.isSelected && card.isEven) {
+                    greenCardCount++;
+                  } else if (!card.isSelected && card.isEven) {
+                    greenCardCount--;
+                  }
+                });
+              },
+            );
+          }).toList(),
+        ),
+        if (greenCardCount == 5)
+          Positioned.fill(
+            child:
+            Lottie.asset('assets/animations/congratulationsAnimation.json',
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 800,
+              fit: BoxFit.cover,
+
+              ),
+          ),
+      ],
     );
   }
 }
